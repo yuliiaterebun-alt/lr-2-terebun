@@ -1,0 +1,25 @@
+@startuml
+left to right direction
+actor "Розробник" as Developer
+actor "ШІ-Асистент" as AIAssistant
+
+rectangle "Платформа Replit" {
+  usecase "Створити проєкт" as UC01
+  usecase "Редагувати код" as UC02
+  usecase "Згенерувати код через ШІ" as UC03
+  usecase "Запустити проєкт" as UC04
+  usecase "Автентифікація" as UC05
+  usecase "Розгорнути додаток" as UC06
+}
+
+Developer --> UC01
+Developer --> UC02
+Developer --> UC04
+Developer --> UC06
+
+AIAssistant --> UC03
+
+UC01 ..> UC05 : <<include>>
+UC06 ..> UC05 : <<include>>
+UC03 ..> UC02 : <<extend>>
+@enduml
