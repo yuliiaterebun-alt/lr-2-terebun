@@ -1,0 +1,48 @@
+@startuml
+class User {
+  - id : int
+  - username : String
+  - email : String
+  - isPremium : boolean
+  + login() : boolean
+  + createRepl(title : String, language : String) : Repl
+}
+
+class Repl {
+  - replId : int
+  - title : String
+  - language : String
+  - isPublic : boolean
+  + run() : void
+  + share(user : User) : void
+}
+
+class File {
+  - name : String
+  - content : String
+  - size : int
+  + updateContent(newText : String) : void
+  + getLanguage() : String
+}
+
+class Container {
+  - containerId : String
+  - ramLimit : int
+  - cpuLimit : float
+  - status : String
+  + allocateResources() : void
+  + executeCommand(cmd : String) : String
+}
+
+class AIAssistant {
+  - modelName : String
+  - contextWindow : int
+  + completeCode(currentCode : String) : String
+  + explainError(errorMessage : String) : String
+}
+
+User "1" -- "0..*" Repl : owner
+Repl "1" *-- "1..*" File : contains
+Repl "1" o-- "1" Container : allocates
+Repl "*" -- "1" AIAssistant : uses
+@enduml
