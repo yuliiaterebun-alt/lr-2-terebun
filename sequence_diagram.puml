@@ -1,0 +1,27 @@
+@startuml
+actor "Розробник" as Dev
+participant ":WorkspaceUI" as UI
+participant ":ReplServer" as Server
+participant ":Container" as Box
+
+Dev -> UI : clickRun()
+UI -> Server : executeCode()
+Server -> Box : checkStatus()
+Box --> Server : status (idle)
+
+alt status == idle
+  Server -> Box : startContainer()
+  Box --> Server : containerReady
+end
+
+Server -> Box : runScript(files)
+
+loop поки код працює
+  Box --> Server : streamOutput(text)
+  Server --> UI : displayConsole(text)
+end
+
+Box --> Server : executionFinished(exitCode)
+Server --> UI : executionComplete
+UI --> Dev : Показ результату в консолі
+@enduml
